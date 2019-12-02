@@ -45,10 +45,10 @@ const Donated = ({ charityName, amount, deleteDonation, editDonation, index, dat
           setIsNewCharityData(inputCharityData)
         }}>
           <label htmlFor='new-charity-name'>New Charity Name: </label>
-          <input style={{ width: '170px', marginTop: '20px' }} id='new-charity-name' name='charityName' placeholder={charityName} required />
+          <input style={{ width: '170px', marginTop: '20px' }} id='new-charity-name' name='charityName' defaultValue={charityName} />
           <br />
           <label htmlFor='new-charity-amount'>New Charity Amount: </label>
-          <input style={{ width: '170px', marginTop: '20px' }} type='number' id='new-charity-amount' name='amount' placeholder={amount} required />
+          <input style={{ width: '170px', marginTop: '20px' }} type='number' id='new-charity-amount' name='amount' defaultValue={amount} />
           <br />
           <input type='submit' placeholder={`Save Changes`} />
         </form>

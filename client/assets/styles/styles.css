@@ -50,7 +50,7 @@
   cursor: pointer;
 }
 .navigate-component-tab {
-  margin-left: 35%;
+  margin-left: 38%;
   background-color: #d0edf7;
   text-align: center;
   border: 1px solid slategrey;
@@ -123,7 +123,7 @@
   text-align: center;
   width: 30%;
   position: absolute;
-  margin: 50px;
+  margin: 55px;
   left: 0;
   border: 1px solid slategrey;
   background-color: #d0edf7;
@@ -392,5 +392,4 @@
 }
 .login-log-in-button {
   width: 100px;
-  margin-top: 10px;
 }

@@ -48,18 +48,18 @@ sessionController.verifySSID = (req, res, next) => {
     const { username } = result.rows[0];
     res.locals.username = username;
     res.locals.isLoggedIn = true;
-
-    pool.query('SELECT * FROM "Donations" WHERE username = $1', [username], (innerErr, innerResult) => {
-      if (innerErr || !innerResult) {
-        return next({
-          log: `sessionController.verifySSID: ERROR: ${innerErr}`,
-          message: { err: 'sessionController.verifySSID: ERROR: Check server logs for details' },
-        });
-      }
-      // console.log('innerResult.rows is', innerResult.rows);
-      res.locals.allDonations = innerResult.rows;
-      return next();
-    });
+    return next();
+    // pool.query('SELECT * FROM "Donations" WHERE username = $1', [username], (innerErr, innerResult) => {
+    //   if (innerErr || !innerResult) {
+    //     return next({
+    //       log: `sessionController.verifySSID: ERROR: ${innerErr}`,
+    //       message: { err: 'sessionController.verifySSID: ERROR: Check server logs for details' },
+    //     });
+    //   }
+    //   // console.log('innerResult.rows is', innerResult.rows);
+    //   res.locals.allDonations = innerResult.rows;
+    //   return next();
+    // });
   });
 };
 

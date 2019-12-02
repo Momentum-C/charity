@@ -21,11 +21,11 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
   return res.sendFile(path.join(__dirname, '../client/assets/index.html'));
 });
-app.post('/checkCookie', sessionController.verifySSID, redisController.getData, (req, res) => {
-  const { username, isLoggedIn, allDonations, reply } = res.locals;
+app.post('/checkCookie', sessionController.verifySSID, redisController.getData, donationController.getDonations, (req, res) => {
+  const { username, isLoggedIn, donated, reply } = res.locals;
   let data;
   if (isLoggedIn) {
-    data = { isLoggedIn, username, allDonations, reply };
+    data = { isLoggedIn, username, donated, reply };
   } else {
     data = { isLoggedIn };
   }
@@ -50,10 +50,9 @@ app.post('/signup', authController.createUser, (req, res) => {
   return res.status(200).json({ isLoggedIn, username });
 });
 
-app.post('/login', authController.verifyUser, sessionController.setSSID, redisController.getData, (req, res) => {
-
-  const { isLoggedIn, username, reply } = res.locals;
-  return res.status(200).json({ isLoggedIn, username, reply });
+app.post('/login', authController.verifyUser, sessionController.setSSID, redisController.getData, donationController.getDonations, (req, res) => {
+  const { isLoggedIn, username, reply, donated } = res.locals;
+  return res.status(200).json({ isLoggedIn, username, reply, donated });
 });
 
 app.post('/api/fetchData', charityController.fetchData, (req, res) => {

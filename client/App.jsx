@@ -33,6 +33,7 @@ const App = () => {
   const [isFetchedCategoryData, setIsFetchedCategoryData] = useState([]);
   const [isInterested, setIsInterested] = useState([]);
   const [isSearchNumber, setIsSearchNumber] = useState(0);
+  const [isCheckingCookie, setIsCheckingCookie] = useState(false);
   const handleLoginDetails = (name, value) => {
     const updatedLoginDetails = { ...isUserDetails };
     updatedLoginDetails[name] = value;
@@ -40,6 +41,7 @@ const App = () => {
   }
   useEffect(() => {
     const { username } = isUserDetails;
+    setIsCheckingCookie(!isCheckingCookie);
     fetch('/checkCookie', {
       method: 'POST',
       headers: {
@@ -49,11 +51,13 @@ const App = () => {
     })
       .then(res => res.json())
       .then((data) => {
-        const { isLoggedIn, username, allDonations, reply } = data;
+        const { isLoggedIn, username, reply, donated } = data;
         setIsLoggedIn(isLoggedIn);
         username ? handleLoginDetails('username', username) : false;
-        allDonations ? setIsCharity(allDonations) : false;
         reply ? setIsInterested(reply) : false;
+        donated ? setIsCharity(donated) : false;
+        console.log('here inside of fetch', isLoggedIn, isCheckingCookie)
+        setIsCheckingCookie(!isCheckingCookie);
       })
       .catch(err => console.log(err));
   }, []);
@@ -87,11 +91,6 @@ const App = () => {
       .catch(err => console.error(err))
   }
   const handleSignupOrLogin = () => {
-    const { username, password } = isUserDetails;
-    const userInfo = {
-      username,
-      password
-    }
     fetch(`/${userStatus}`, {
       method: 'POST',
       headers: {
@@ -101,10 +100,11 @@ const App = () => {
     })
       .then(res => res.json())
       .then(data => {
-        const { isLoggedIn, username, reply } = data;
+        const { isLoggedIn, username, reply, donated } = data;
         setIsLoggedIn(isLoggedIn);
         if (username) handleLoginDetails('username', username);
         if (reply) setIsInterested(reply);
+        if (donated) setIsCharity(donated);
       })
       .catch(err => console.error(err));
   }
@@ -207,19 +207,11 @@ const App = () => {
         console.log('/updateDonation route has broken')
       })
   }
+
   return (
     <div className="App">
-      {!isLoggedIn && isSignedUp && <Login
-        handleLoginDetails={handleLoginDetails}
-        handleSignupOrLogin={handleSignupOrLogin}
-        displaySignUpComponent={displaySignUpComponent}
-      />}
-      {!isLoggedIn && !isSignedUp && <Signup
-        handleLoginDetails={handleLoginDetails}
-        handleSignupOrLogin={handleSignupOrLogin}
-        displaySignUpComponent={displaySignUpComponent}
-      />}
-      {isLoggedIn &&
+      {
+        isLoggedIn &&
         <div className="main-container">
           <Header handleLogOut={handleLogOut} username={isUserDetails.username} />
           {!isSearchTab &&
@@ -248,7 +240,19 @@ const App = () => {
           />}
         </div>
       }
+      {!isLoggedIn && isSignedUp && <Login
+        handleLoginDetails={handleLoginDetails}
+        handleSignupOrLogin={handleSignupOrLogin}
+        displaySignUpComponent={displaySignUpComponent}
+      />}
+      {
+        !isLoggedIn && !isSignedUp && <Signup
+          handleLoginDetails={handleLoginDetails}
+          handleSignupOrLogin={handleSignupOrLogin}
+          displaySignUpComponent={displaySignUpComponent}
+        />
+      }
     </div>
-  )
+  );
 }
 export default App;
