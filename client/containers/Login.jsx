@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 const Login = ({ handleLoginDetails, handleSignupOrLogin, displaySignUpComponent }) => {
+  const isLoginRef = useRef(null);
+
+  useEffect(() => {
+    isLoginRef.current.focus()
+  }, []);
+
   return (
     <div className="login-container">
       <div className="input-container">
@@ -15,7 +21,9 @@ const Login = ({ handleLoginDetails, handleSignupOrLogin, displaySignUpComponent
           }}>
             <div className="usernameInputs">
               <label htmlFor='login-username-input-field'>Username: </label>
-              <input id='login-username-input-field' name='username' type="text" />
+              <input ref={(input) => {
+                isLoginRef.current = input;
+              }} id='login-username-input-field' name='username' type="text" />
             </div>
             <div className="passwordInputs">
               <label htmlFor='login-password-input-field'>Password: </label>

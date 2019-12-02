@@ -22,19 +22,12 @@ app.get('/', (req, res) => {
   return res.sendFile(path.join(__dirname, '../client/assets/index.html'));
 });
 app.post('/checkCookie', sessionController.verifySSID, redisController.getData, donationController.getDonations, (req, res) => {
-  const { username, isLoggedIn, donated, reply } = res.locals;
-  let data;
-  if (isLoggedIn) {
-    data = { isLoggedIn, username, donated, reply };
-  } else {
-    data = { isLoggedIn };
-  }
-  return res.status(200).json(data);
+  return res.json(res.locals);
 });
 
 app.delete('/logout', sessionController.deleteSSID, (req, res) => {
   const { isLoggedIn } = res.locals;
-  return res.status(200).json({ isLoggedIn })
+  return res.json({ isLoggedIn })
 })
 app.delete('/charity', donationController.deleteDonation, (req, res) => {
   return res.json(res.locals.deleted);
@@ -47,12 +40,12 @@ app.use('/build', express.static(path.join(__dirname, 'build')));
 
 app.post('/signup', authController.createUser, (req, res) => {
   const { isLoggedIn, username } = res.locals;
-  return res.status(200).json({ isLoggedIn, username });
+  return res.json({ isLoggedIn, username });
 });
 
 app.post('/login', authController.verifyUser, sessionController.setSSID, redisController.getData, donationController.getDonations, (req, res) => {
   const { isLoggedIn, username, reply, donated } = res.locals;
-  return res.status(200).json({ isLoggedIn, username, reply, donated });
+  return res.json({ isLoggedIn, username, reply, donated });
 });
 
 app.post('/api/fetchData', charityController.fetchData, (req, res) => {
@@ -60,7 +53,7 @@ app.post('/api/fetchData', charityController.fetchData, (req, res) => {
 });
 
 app.post('/donation', donationController.postDonation, (req, res) => {
-  return res.status(200).json({ success: res.locals.success });
+  return res.json({ success: res.locals.success });
 });
 app.put('/updateDonation', donationController.updateDonation, (req, res) => {
   console.log(req.body)

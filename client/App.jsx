@@ -33,7 +33,6 @@ const App = () => {
   const [isFetchedCategoryData, setIsFetchedCategoryData] = useState([]);
   const [isInterested, setIsInterested] = useState([]);
   const [isSearchNumber, setIsSearchNumber] = useState(0);
-  const [isCheckingCookie, setIsCheckingCookie] = useState(false);
   const handleLoginDetails = (name, value) => {
     const updatedLoginDetails = { ...isUserDetails };
     updatedLoginDetails[name] = value;
@@ -41,7 +40,6 @@ const App = () => {
   }
   useEffect(() => {
     const { username } = isUserDetails;
-    setIsCheckingCookie(!isCheckingCookie);
     fetch('/checkCookie', {
       method: 'POST',
       headers: {
@@ -49,17 +47,17 @@ const App = () => {
       },
       body: JSON.stringify({ username })
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((data) => {
         const { isLoggedIn, username, reply, donated } = data;
         setIsLoggedIn(isLoggedIn);
-        username ? handleLoginDetails('username', username) : false;
-        reply ? setIsInterested(reply) : false;
-        donated ? setIsCharity(donated) : false;
-        console.log('here inside of fetch', isLoggedIn, isCheckingCookie)
-        setIsCheckingCookie(!isCheckingCookie);
+        if(isLoggedIn){
+          username ? handleLoginDetails('username', username) : false;
+          reply ? setIsInterested(reply) : false;
+          donated ? setIsCharity(donated) : false;
+        }
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
@@ -79,8 +77,8 @@ const App = () => {
       },
       body: JSON.stringify(isUserDetails)
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         /**
          * Three options here, performance benefits? (have not hard tested this yet)
          */
@@ -88,7 +86,7 @@ const App = () => {
         // location.reload()
         window.location = document.URL;
       })
-      .catch(err => console.error(err))
+      .catch((err) => console.error(err))
   }
   const handleSignupOrLogin = () => {
     fetch(`/${userStatus}`, {
@@ -98,15 +96,15 @@ const App = () => {
       },
       body: JSON.stringify(isUserDetails)
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         const { isLoggedIn, username, reply, donated } = data;
         setIsLoggedIn(isLoggedIn);
         if (username) handleLoginDetails('username', username);
         if (reply) setIsInterested(reply);
         if (donated) setIsCharity(donated);
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
   //fetching data using a post request, sending user input as body
   const fetchData = () => {
@@ -116,7 +114,7 @@ const App = () => {
       if (objects[index]) {
         return index + 1;
       };
-    }).filter(elements => elements !== undefined);
+    }).filter((elements) => elements !== undefined);
     fetch('/api/fetchData', {
       method: 'POST',
       headers: { "Content-Type": 'application/json' },
@@ -129,8 +127,8 @@ const App = () => {
         }
       })
     })
-      .then(res => res.json())
-      .then(result => {
+      .then((res) => res.json())
+      .then((result) => {
         //setting category data to be passed to category container
         const data = [];
         result.forEach(array => {
@@ -140,7 +138,7 @@ const App = () => {
         })
         setIsFetchedCategoryData(data)
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('something broke inside of .then chain inside of fetchData method')
       })
   }
@@ -174,11 +172,10 @@ const App = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ _id: isCharity[index]._id })
     })
-      .then(res => {
-        console.log(res);
+      .then((res) => {
         console.log('successfully deleted from database');
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('fetch to /charity to delete a charity has broke')
       })
   }
@@ -200,10 +197,10 @@ const App = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ newData: updatedDataRow })
     })
-      .then(res => {
+      .then((res) => {
         console.log(res, 'successful update!')
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('/updateDonation route has broken')
       })
   }
