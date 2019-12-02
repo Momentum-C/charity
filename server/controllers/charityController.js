@@ -44,15 +44,3 @@ charityController.fetchData = (req, res, next) => {
     })
 }
 module.exports = charityController;
-
-// const arr = [
-//   'Animals',
-//   'Arts, Culture, Humanities',
-//   'Community Development',
-//   'Education',
-//   'Environment',
-//   'Health',
-//   'Human Services',
-//   'Human and Civil Rights',
-//   'International',
-//   'Research and Public Policy'];

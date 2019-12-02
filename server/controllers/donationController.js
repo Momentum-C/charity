@@ -1,6 +1,16 @@
 const { pool } = require('../databases/psql');
 const donationController = {};
 
+donationController.getDonations = (req, res, next) => {
+  pool.query('SELECT * from "Donations" WHERE username=$1', [res.locals.username], (err, result) => {
+    if (err) return next({
+      log: `donationController.getDonation: ERROR: ${err}`,
+      message: { err: 'donationController.getDonation: ERROR: Check server logs for details' }
+    })
+    res.locals.donated = result.rows;
+    return next();
+  })
+}
 donationController.postDonation = (req, res, next) => {
   // console.log('postDonation');
   const { username, amount, charityName } = req.body;
@@ -39,4 +49,5 @@ donationController.updateDonation = (req, res, next) => {
     return next();
   });
 }
+
 module.exports = donationController;
