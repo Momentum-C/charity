@@ -12,7 +12,6 @@ donationController.getDonations = (req, res, next) => {
   })
 }
 donationController.postDonation = (req, res, next) => {
-  // console.log('postDonation');
   const { username, amount, charityName } = req.body;
   pool.query('INSERT INTO "Donations" (username, amount, "charityName", date) VALUES ($1, $2, $3, $4)', [username, amount, charityName, new Date()], (err, result) => {
     if (err || !result) {
@@ -40,7 +39,6 @@ donationController.deleteDonation = (req, res, next) => {
 donationController.updateDonation = (req, res, next) => {
   const { _id, amount, charityName } = req.body.newData
   pool.query('UPDATE "Donations" SET amount=$1, "charityName"=$2, date=$3 WHERE _id=$4', [amount, charityName, new Date(), _id], (err, result) => {
-    console.log(err, result)
     if (err) return next({
       log: `donationController.updateDonation: ERROR: ${err}`,
       message: { err: 'donationController.updateDonation: ERROR: Check server logs for details' },
