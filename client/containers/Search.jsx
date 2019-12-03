@@ -6,21 +6,21 @@ import Tabs from '../components/Tabs';
 import Interests from '../components/Interests'
 const Search = ({
   fetchData,
-  setIsTwoLetterState,
+  setTwoLetterState,
   setIsFundraisingOrg,
-  isCategory,
-  setIsCategory,
-  isFetchedCategoryData,
-  setIsInterested,
-  isInterested,
-  setIsSearchNumber,
+  categories,
+  setCategories,
+  fetchedCategoryData,
+  setInterested,
+  interested,
+  setSearchNumber,
   sendInterests,
   isSearchTab,
-  setisSearchTab
+  setIsSearchTab
 }) => {
   let charitiesArray
-  if (isFetchedCategoryData && isFetchedCategoryData.length > 0) {
-    charitiesArray = isFetchedCategoryData.map((data, index) => {
+  if (fetchedCategoryData && fetchedCategoryData.length > 0) {
+    charitiesArray = fetchedCategoryData.map((data, index) => {
       return (<SearchedCharities
         name={data.name}
         mission={data.mission}
@@ -30,9 +30,9 @@ const Search = ({
         stars={data.stars}
         categoryName={data.categoryName}
         location={data.location}
-        setIsInterested={setIsInterested}
+        setInterested={setInterested}
         data={data}
-        isInterested={isInterested}
+        interested={interested}
         index={index}
       />);
     })
@@ -43,26 +43,26 @@ const Search = ({
       <div className='tabs-area'>
         <Tabs
           isSearchTab={isSearchTab}
-          setisSearchTab={setisSearchTab}
+          setIsSearchTab={setIsSearchTab}
         />
       </div>
       <div className="search-container">
         <div id='search-area'>
           <h1>Search For a Charity</h1>
           <SearchArea
-            isCategory={isCategory}
-            setIsCategory={setIsCategory}
+            categories={categories}
+            setCategories={setCategories}
           />
           <SearchAreaForm
-            setIsTwoLetterState={setIsTwoLetterState}
+            setTwoLetterState={setTwoLetterState}
             setIsFundraisingOrg={setIsFundraisingOrg}
             fetchData={fetchData}
-            setIsSearchNumber={setIsSearchNumber}
+            setSearchNumber={setSearchNumber}
           />
           <div id='interests-area'>
             <Interests
-              isInterested={isInterested}
-              setIsInterested={setIsInterested}
+              interested={interested}
+              setInterested={setInterested}
               sendInterests={sendInterests}
             />
           </div>

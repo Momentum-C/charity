@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-const DonationInput = ({ username, isCharity, setIsCharity }) => {
+const DonationInput = ({ username, charity, setIsCharity }) => {
 
   const [isCharityIn, setIsCharityIn] = useState('');
   const [isAmountIn, setIsAmountIn] = useState('')
 
   function submitting(e) {
     e.preventDefault()
-    const charityList = isCharity.slice();
+    const charityList = charity.slice();
     const donation = {
       username: username,
       charityName: isCharityIn,

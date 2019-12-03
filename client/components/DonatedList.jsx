@@ -3,12 +3,12 @@ import Donated from './Donated.jsx';
 import DonationInput from './DonationInput.jsx';
 const DonatedList = ({
   username,
-  isCharity,
+  charity,
   setIsCharity,
   deleteDonation,
   editDonation
 }) => {
-  const donArr = isCharity.map((charity, i) => {
+  const donArr = charity.map((charity, i) => {
     return (<Donated
       key={i}
       charityName={charity.charityName}
@@ -21,7 +21,7 @@ const DonatedList = ({
   })
   return (
     <React.Fragment>
-      <DonationInput isCharity={isCharity} username={username} setIsCharity={setIsCharity} />
+      <DonationInput charity={charity} username={username} setIsCharity={setIsCharity} />
       {donArr}
     </React.Fragment>
   )
