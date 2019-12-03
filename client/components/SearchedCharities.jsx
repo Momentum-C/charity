@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-const Categories = ({
+import React from 'react';
+const SearchedCharities = ({
   name,
   mission,
   url,
   tagLine,
-  score,
   stars,
   categoryName,
   location,
@@ -13,22 +12,21 @@ const Categories = ({
   isInterested,
   index
 }) => {
-  const splitText = mission.split('<br><br>');
+  const splitText = mission.split('<br>');
   const resultOfConcattingPTags = splitText.map(el => {
     return (
-      <React.Fragment>
-        <p>{el}</p>
-      </React.Fragment>
+      <p>{el}</p>
     );
   })
   return (
-    <div>
+    <div className='single-charity'>
       <h1>{name}</h1>
-      <h3>{categoryName}<img src={stars}></img></h3>
-      <h6>{tagLine}</h6>
+      <img src={stars}></img>
+      <h3>{categoryName}</h3>
+      <p><em>{tagLine}</em></p>
       {resultOfConcattingPTags}
       <a href={url}>{url}</a>
-      <p>{location}</p>
+      <p>State: {location}</p>
       <button id={`interest-button${index}`} disabled={false} onClick={(e) => {
         // interests getting updated with a new object
         const disabledButton = document.getElementById(`interest-button${index}`);
@@ -40,4 +38,4 @@ const Categories = ({
     </div>
   );
 }
-export default Categories;
+export default SearchedCharities;

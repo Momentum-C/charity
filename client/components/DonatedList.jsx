@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
 import Donated from './Donated.jsx';
 import DonationInput from './DonationInput.jsx';
-const DonatedList = ({ username, isCharity, setIsCharity }) => {
-  const donArr = [];
-  if (isCharity) {
-    for (let i = 0; i < isCharity.length; i++) {
-      const currentCharity = isCharity[i]
-      donArr.push(<Donated charityName={currentCharity.charityName} amount={currentCharity.amount} key={i} />);
-    }
-  }
+const DonatedList = ({
+  username,
+  isCharity,
+  setIsCharity,
+  deleteDonation,
+  editDonation
+}) => {
+  const donArr = isCharity.map((charity, i) => {
+    return (<Donated
+      key={i}
+      charityName={charity.charityName}
+      amount={charity.amount}
+      deleteDonation={deleteDonation}
+      editDonation={editDonation}
+      dateAdded={charity.date}
+      index={i}
+    />);
+  })
   return (
-    <div>
-      {donArr}
+    <React.Fragment>
       <DonationInput isCharity={isCharity} username={username} setIsCharity={setIsCharity} />
-    </div>
+      {donArr}
+    </React.Fragment>
   )
 }
 export default DonatedList;

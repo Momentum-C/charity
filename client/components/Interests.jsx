@@ -1,27 +1,30 @@
 import React from 'react';
 import InterestChild from './InterestChild.jsx'
-const Interests = ({ isInterested, setIsInterested, sendInterests }) => {
+const Interests = ({ interested, setInterested, sendInterests }) => {
   let interestedChildren;
-  if (isInterested && isInterested.length > 0) {
-    interestedChildren = isInterested.map((obj) => {
+  if (interested && interested.length > 0) {
+    interestedChildren = interested.map((obj, i) => {
       return (<InterestChild
+        key={`interest-child${i}`}
         url={obj.url}
         name={obj.name}
         tagLine={obj.tagLine}
         stars={obj.stars}
-        setIsInterested={setIsInterested}
-        isInterested={isInterested}
+        setInterested={setInterested}
       />);
     })
   }
 
   return (
-    <div>
-      <button onClick={() => {
-        // console.log('here inside of onclick for interests', isInterested)
-        sendInterests(isInterested)
-      }}>Save!</button>
-      {interestedChildren ? interestedChildren : false}
+    <div id='interested-charities'>
+      <h1>Interested Charities</h1>
+      <button id='save-charities' onClick={() => {
+        sendInterests(interested)
+      }}>Save These Charities!</button>
+      <div id='interests-children'>
+        {interestedChildren ? interestedChildren : false}
+      </div>
+
     </div>
   )
 }

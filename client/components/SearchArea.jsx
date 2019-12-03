@@ -1,26 +1,25 @@
-import CharityDisplay from './CharityDisplay.jsx';
 import React from 'react';
 
-const SearchArea = ({ isCategory, setIsCategory }) => {
+const SearchArea = ({ categories, setCategories }) => {
   const updateCategory = (index) => {
     const temp = [];
-    for (let i = 0; i < isCategory.length; i += 1) {
+    for (let i = 0; i < categories.length; i += 1) {
       if (i !== index) {
-        temp.push(isCategory[i]);
+        temp.push(categories[i]);
       } else {
-        const isCategoryTemp = { ...isCategory[i] };
-        isCategoryTemp[i] = !isCategoryTemp[i];
-        temp.push(isCategoryTemp);
+        const categoriesTemp = { ...categories[i] };
+        categoriesTemp[i] = !categoriesTemp[i];
+        temp.push(categoriesTemp);
       }
     }
     return temp;
   }
   const falseButtons = [];
   const trueButtons = [];
-  isCategory.forEach((category, index) => {
+  categories.forEach((category, index) => {
     const button = (<button type='submit' key={'button' + index} id={'button' + index} className='categoryButton' onClick={() => {
       const newState = updateCategory(index);
-      setIsCategory(newState);
+      setCategories(newState);
     }}>{category.name}</button>)
     if (category[index]) {
       trueButtons.push(button);
@@ -30,14 +29,15 @@ const SearchArea = ({ isCategory, setIsCategory }) => {
   });
 
   return (
-    <div className='searchArea-container'>
+    <div className='category-area'>
       <div className="false-area">
+        {falseButtons.length > 0 ? <p>Category: </p> : false}
         {falseButtons}
       </div>
       <div className="true-area">
+        {trueButtons.length > 0 ? <p>Selected: </p> : false}
         {trueButtons}
       </div>
-
     </div>
 
   )

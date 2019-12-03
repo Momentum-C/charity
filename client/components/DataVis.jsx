@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PieChart from 'react-minimal-pie-chart';
 function sortForPie(arr, sortBy, accType = undefined) {
-  console.log("hjlkhkjvhajkhkjesfhkjcha")
-  console.log(arr)
-  console.log(sortBy)
-  console.log(accType)
   const colorArr = ['#b5e37e', '#7db9ec', '#b784f2', '#f28ec4', '#eeaf7a', '#f66555', '#ffc66f', '#f8f9d4', '#3cccd0', '#008cd0']
   const obj = {};
   const output = [];
   let incColor = 0;
+  console.log(arr)
   arr.forEach(inArr => {
     if (accType) {
       if (obj[inArr[sortBy]]) {
@@ -29,36 +26,44 @@ function sortForPie(arr, sortBy, accType = undefined) {
     incColor++;
     if (incColor > colorArr.length - 1) incColor = 0;
   }
-  console.log("this is the out", output)
   return output;
 }
-const KeyElement = ({ color, text }) => {
-  console.log(color)
-  return (
-    <div>
-      <button style={{ "color": color }}>{text}</button>
-    </div>
-  )
-}
-const DataVis = ({ isCharity }) => {
-  const sum = isCharity ? isCharity.reduce((acc, val) => acc + Number(val.amount), 0) : 0;
-  const pieData = sortForPie(isCharity, "charityName", "amount");
+
+const DataVis = ({ charity }) => {
+  const sum = charity ? charity.reduce((acc, val) => acc + Number(val.amount), 0) : 0;
+  const pieData = sortForPie(charity, "charityName", "amount");
   const pie = <PieChart className='pieChart'
     data={
       pieData
     }
   />;
-  const keyArr = [];
-  pieData.forEach((obj, i) => {
-    keyArr.push(<KeyElement key={i} color={obj.color} text={obj.title} />)
+  const total = pieData.reduce((acc, val) => {
+    return acc += val.value
+  }, 0)
+
+  const keyArr = pieData.map((obj, i) => {
+    const tempTotalPercentage = ((obj.value / total) * 100).toFixed(2);
+    return (
+      <div id='pie-data-information'>
+        <h5 key={`color-region${i}`} style={{ "backgroundColor": obj.color}}>{obj.title} : {tempTotalPercentage}%</h5>
+      </div>
+      );
   })
+
   return (
-    <div>
-      <h1>Data Visual</h1>
-      <p>Total: ${sum}</p>
-      {pie}
-      {keyArr}
-    </div>
+    <React.Fragment>
+      <div className='data-vis-container'>
+        <div id='data-vis-pie'>
+        <h1>Donated Graph</h1>
+        <h3>Total: ${sum}</h3>
+          {pie}
+        </div>
+        <div id='data-vis-color-region'>
+        <h1>Color Region</h1>
+        {keyArr}
+        </div>
+      </div>
+    </React.Fragment>
   )
 }
 export default DataVis;

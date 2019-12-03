@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: 'Slabo 27px', serif;
 }
 
 
@@ -16,7 +17,7 @@
   height: 8%;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px rgb(121, 210, 240) solid;
+  position: relative;
 }
 
 .left-header {
@@ -24,14 +25,8 @@
   display: flex;
   width: 30%;
 }
-
-.logo {
-  display: flex;
-  background-color: rgb(202, 230, 240);
-  justify-content: center;
-  align-items: center;
-  width: 100px;
-  height: 80%;
+#welcome {
+  margin: -5px 0px 0px 50px;
 }
 
 .momentum {
@@ -54,14 +49,19 @@
   outline: none;
   cursor: pointer;
 }
-
+.navigate-component-tab {
+  margin-left: 38%;
+  background-color: #d0edf7;
+  text-align: center;
+  border: 1px solid slategrey;
+}
 /* Login and Signup component */
 .login-container, .signup-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: rgb(208, 237, 247);
+  background-color: #d0edf7;
 }
 
 .input-container {
@@ -71,12 +71,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  margin: 10px 10px 10px 10px;
   align-items: center;
 }
 #form-login {
-  display: grid;
-  width: 50%;
-  grid-template-columns: 50% 50%;
+  display: flex;
+  align-items: center;
+  text-align: center;
   justify-content: space-evenly;
 }
 .usernameInputs, .passwordInputs {
@@ -84,8 +85,9 @@
 }
 
 .login-buttons, .signup-buttons {
-  margin-top: 20px;
+  margin-top: -20px;
   display: flex;
+  justify-content: center;
   width: 200px;
   height: auto;
 }
@@ -106,36 +108,101 @@
 .search-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  background-color: lightblue;
+  height: auto;
+  background-color: #d0edf7;
+  position: relative;
+}
+.tabs-area {
+  position: absolute;
+  left: 0;
+  margin-top: 100px;
+  height: 10px;
 }
 
+#search-area {
+  text-align: center;
+  width: 30%;
+  position: absolute;
+  margin: 55px;
+  left: 0;
+  border: 1px solid slategrey;
+  background-color: #d0edf7;
+  border-bottom: 1px solid slategrey;
+}
 
-.searchArea-container{ 
+#interests-area {
+  width: 100%;
+  position: absolute;
+  left: 0;
+}
+#array-of-categories-area {
+  position: absolute;
+  right: 0;
+  width: 65%;
+  margin: 50px 0px 0px 0px;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/* .category-area {
+
+} */
+.false-area {
+  border-bottom: 1px solid slategrey;
+}
+.true-area {
+  /* border-bottom: 1px solid slategrey; */
+}
+#search-area-form {
+  margin: 10px;
+}
+#search-charity {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Queried for charities display*/
+.single-charity {
   display: flex;
   flex-direction: column;
-  height: 15%;
-  background-color: rgb(245, 252, 189);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 10px;
+  border: 1px solid slategrey;
+  margin: 10px;
+  background-color: #d0edf7;
+}
+/* interested Charities */
+#interested-charities {
+  align-items: center;
+  text-align: center;
+  margin: 20px;
+}
+#interests-children {
+  margin: 5px 5px;
 }
 
-.false-area {
+#interest-child {
+  background-color: #d0edf7;
   display: flex;
-  justify-content: flex-start;
-  border-bottom: 1px black solid; 
-  height: 50%;
+  flex-direction: column;
+  width: 96.5%;
+  margin-left: -4px;
+  padding: 10px 10px;
+  border: 1px solid slategrey;
+  align-items: center;
+  margin-top: 5px;
+  text-align: center;
 }
-
-.true-area {
-  display: flex;
-  justify-content: flex-start;
-  border-bottom: 1px black solid; 
-  height: 50%;
+#not-interested-button {
+  width: 150px;
 }
-
 /* Tab Component */
 
 .tabs-container {
-  background-color: lightblue;
+  background-color: #d0edf7;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -156,7 +223,6 @@
   align-items: center;
   width: 50%;
 }
-
 .search-tab, .history-tab {
   font-size: 2rem;
   letter-spacing: 2px;
@@ -165,8 +231,8 @@
  /* Category Buttons */
 
 .categoryButton {
-  height: 50px;
-  width: 175px;
+  height: 30px;
+  width: 150px;
   font-size: .7rem;
   align-self: left;
   margin: 10px 100px;
@@ -193,36 +259,35 @@
   color: white;
 }
 
-.textWithinElement {
+
+
+.categoryButton:hover {
+  background-color: lightslategray;
+  color: white;
+}
+.historyElement {
+  flex-direction: row;
+  margin: 5px;
+  width: 40%;
+  border: 0.5px solid lightslategray;
+  border-radius: 2px;
+  margin-top: 5px;
+  background-color: white;
   font-size: 15pt;
   padding: 5px 15px;
   font-weight: bold;
 }
-
 .shareButton {
-  height: 30px;
-  width: 80px;
+  position: absolute;
+  height: 40px;
+  width: 20%;
+  border: 0.5px solid lightslategray;
+  right: 0;
   font-size: .7rem;
-  align-self: left;
-  margin: 10px 100px;
-  border: 1px solid lightslategray;
-  color: darkslategrey;
+  margin: 8px 75px;
   border-radius: 5px;
-  margin: 5px 15px 10px 15px;
 }
   
-  .categoryButton:hover {
-    background-color: lightslategray;
-    color: white;
-  }
-
-.historyElement {
-  margin: 5px;
-  border: 2px solid darkslateblue;
-  border-radius: 5px;
-  background-color: rgb(245, 252, 189);
-}
-
 .charityDisplay {
   background-color: rgb(202, 230, 240);
 }
@@ -237,11 +302,94 @@
   margin: 50px auto 50px auto;
 }
 
-#donatedListArea {
-  background-color: rgb(245, 252, 189);
-
-}
 
 #donationInput {
-  background-color: lightblue;
+  margin-top: 20px;
+  margin-left: 5px;
+}
+.data-vis-container {
+  display: flex;
+  justify-content: space-between;
+}
+#data-vis-pie {
+  width: 300px;
+  height: 300px;
+  margin-left: 10%;
+}
+
+#data-vis-color-region {
+  width: 200px;
+  height: auto;
+  text-align: center;
+  margin-right: 10%;
+}
+#pie-data-information {
+  margin-top: 10px;
+  text-align: center;
+}
+
+/*
+* Donated Container
+*/
+.donated-container {
+  display:flex; 
+  position: relative;
+  justify-content: space-between;
+}
+.data-visualizer {
+  width: 50%;
+}
+.donation-list {
+  width: 50%;
+  margin-left: 50px;
+  border: 1px solid black;
+  border-radius: 2px;
+  margin-top: 5px;
+  background-color: #d0edf7;
+}
+ 
+#donation-form-inputs {
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+}
+#submit-button-donation-input {
+  width: 209.8px;
+}
+
+.donated-container-margin-top-spacing {
+  margin-top: 50px;
+}
+.ReactModal__Content--after-open {
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(255, 255, 255);
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  width: 300px;
+  height: 300px;
+}
+.donations-update-delete-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0px 20px 0px 20px;
+}
+.donations-update-delete-buttons, #edit{
+  color: rgb(17, 168, 17);
+}
+.donations-update-delete-buttons, #delete{
+  color: red;
+}
+
+.login-sign-up-button{
+  width: 100px;
+  
+}
+.login-log-in-button {
+  width: 100px;
 }

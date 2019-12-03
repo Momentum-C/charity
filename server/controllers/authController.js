@@ -9,7 +9,7 @@ authController.createUser = (req, res, next) => {
     if (err || !salt) {
       return next({
         log: `authController.createUser: ERROR: ${err}`,
-        message: { err: 'authController.createUser: ERROR: Check server logs for details' },
+        message: { err: 'authController.createUser before bcrypt HASH: ERROR: Check server logs for details' },
       });
     }
     bcrypt.hash(password, salt, (err, encryptedPass) => {
@@ -26,12 +26,12 @@ authController.createUser = (req, res, next) => {
         })
         .catch(err => {
           return next({
-            log: `authController.createUser: ERROR: ${err}`,
+            log: `authController.createUser failed on insert: ERROR: ${err}`,
             message: { err: 'authController.createUser: ERROR: Check server logs for details' },
           });
         });
     });
-  });
+  })
 };
 
 authController.verifyUser = (req, res, next) => {
@@ -51,6 +51,7 @@ authController.verifyUser = (req, res, next) => {
           });
         } else {
           res.locals.username = result.rows[0].username;
+          console.log(res.locals)
           return next();
         }
       });

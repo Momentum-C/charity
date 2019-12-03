@@ -7,9 +7,7 @@ const DonationInput = ({ username, isCharity, setIsCharity }) => {
 
   function submitting(e) {
     e.preventDefault()
-    // console.log('submitting donation');
     const charityList = isCharity.slice();
-
     const donation = {
       username: username,
       charityName: isCharityIn,
@@ -26,27 +24,32 @@ const DonationInput = ({ username, isCharity, setIsCharity }) => {
       .then(res => res.json())
       .then(data => {
         const { success } = data;
-        // console.log(data)
         if (success) {
-          // console.log('success. updating state');
           setIsCharityIn('');
           setIsAmountIn('');
           charityList.push(donation)
-          // console.log(charityList)
           setIsCharity(charityList);
         }
       })
   }
 
   return (
-
     <div id='donationInput'>
-      <br />
+      <h3>Recently Donated Form</h3>
       <form onSubmit={submitting}>
-        <input name="charityInput" placeholder='charity name' value={isCharityIn} onChange={(e) => { setIsCharityIn(e.target.value) }}></input>
-        <input name="amountInput" placeholder='amount donated' value={isAmountIn} onChange={(e) => setIsAmountIn(e.target.value)}></input>
-
-        <input type="submit" value="Submit" />
+        <div id='donation-form-inputs'>
+          <div>
+            <label htmlFor='charity-name'>Charity Name: </label>
+            <input id='charity-name' name="charityInput" placeholder='Input Charity' value={isCharityIn} onChange={(e) => { setIsCharityIn(e.target.value) }} required></input>
+          </div>
+          <div>
+            <label htmlFor='dollar-value'>Total Donated: </label>
+            <input id='dollar-value' type='number' name="amountInput" placeholder='Input in Dollars' value={isAmountIn} onChange={(e) => setIsAmountIn(e.target.value)} required></input>
+          </div>
+          <div>
+            <input id='submit-button-donation-input' type="submit" value="Track My Donation!" />
+          </div>
+        </div>
       </form>
 
     </div>

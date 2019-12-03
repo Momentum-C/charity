@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Charity from './Charity' // is CharityDisplay supposed to render Charity?
 import SearchArea from './SearchArea'
-// import dbInfo from 'path'; (placeholder)
 
-const CharityDisplay = ({
-  setIsTwoLetterState,
+const SearchAreaForm = ({
+  setTwoLetterState,
   setIsFundraisingOrg,
   fetchData,
-  setIsSearchNumber
+  setSearchNumber
 }) => {
-  const states = ["AK - Alaska",
+  const states = [
+    "CA - California",
     "AL - Alabama",
     "AR - Arkansas",
     "AS - American Samoa",
     "AZ - Arizona",
-    "CA - California",
+    "AK - Alaska",
     "CO - Colorado",
     "CT - Connecticut",
     "DC - District of Columbia",
@@ -66,33 +66,43 @@ const CharityDisplay = ({
     "WY - Wyoming"];
 
   const dropDownListItems = [];
-  const statesToDisplay = [];
 
   states.forEach((stateString, i) => {
     dropDownListItems.push(<option value={stateString.slice(0, 2)} key={i}>{stateString.slice(5)}</option>)
   })
 
   return (
-    <div>
-      <select onChange={(e) => {
-        setIsTwoLetterState(e.target.value)
+    <div id='search-area-form'>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        fetchData
       }}>
-        {dropDownListItems}
-      </select>
-      {statesToDisplay}
-      <label>Fundraising Organization</label>
-      <input type='checkbox' onChange={(e) => {
-        setIsFundraisingOrg(e.target.checked)
-      }} />
-      <label>How many Searches?</label>
-      <input id='number-of-searches' onChange={(e) => {
-        setIsSearchNumber(e.target.value);
-      }}></input>
-      <button onClick={() => {
-        fetchData()
-      }}>Search For Charities</button>
-    </div>
+        <div>
+          <label>State (default CA): </label>
+          <select onChange={(e) => {
+            setTwoLetterState(e.target.value)
+          }}>
+            {dropDownListItems}
+          </select>
+        </div>
+        <div>
+          <label>Fundraising Organization (default False)?: </label>
+          <input type='checkbox' onChange={(e) => {
+            setIsFundraisingOrg(e.target.checked)
+          }} />
+        </div>
+        <div>
+          <label>How many Searches (default 1)?:  </label>
+          <input id='number-of-searches' type='number' onChange={(e) => {
+            setSearchNumber(e.target.value);
+          }}></input>
+        </div>
+        <div id='search-charity'>
+          <button onClick={fetchData}>Search Charities</button>
+        </div>
+      </form>
+    </div >
   )
 }
 
-export default CharityDisplay;
+export default SearchAreaForm;

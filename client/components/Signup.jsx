@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Signup = ({ handleLoginDetails, handleSignupOrLogin }) => {
+const Signup = ({ handleLoginDetails, handleSignupOrLogin, displaySignUpComponent }) => {
   return (
     <div className="signup-container">
       <div className="input-container">
-        <h1>SignUp</h1>
+        <h1>Sign Up</h1>
         <form onSubmit={(e) => {
           e.preventDefault();
           handleSignupOrLogin();
@@ -19,8 +19,9 @@ const Signup = ({ handleLoginDetails, handleSignupOrLogin }) => {
             <label htmlFor='signup-password-input-field'>Password:</label>
             <input id='signup-password-input-field' name='password' type="password" required />
           </div>
-          <div className="signup-buttons">
-            <button type='submit' className="sign-up button" onClick={handleSignupOrLogin}>Submit</button>
+          <div className="login-buttons">
+            <button type='submit' className="login-sign-up button" onClick={handleSignupOrLogin}>Sign Up</button>
+            <button className="login-log-in button" onClick={displaySignUpComponent}>Go back</button>
           </div>
         </form>
       </div>
