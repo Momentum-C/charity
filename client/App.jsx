@@ -55,6 +55,7 @@ const App = () => {
         if (isLoggedIn) {
           username ? handleLoginDetails('username', username) : false;
           reply ? setInterested(reply) : false;
+          console.log(donated)
           donated ? setCharity(donated) : false;
         }
       })
@@ -99,7 +100,7 @@ const App = () => {
         const { isLoggedIn, username, reply, donated } = data;
         setIsLoggedIn(isLoggedIn);
         if (username) handleLoginDetails('username', username);
-        if (reply) setIsInterested(reply);
+        if (reply) setInterested(reply);
         if (donated) setCharity(donated);
       })
       .catch((err) => console.error(err));
