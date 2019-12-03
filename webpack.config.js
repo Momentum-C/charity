@@ -1,14 +1,47 @@
 const path = require("path");
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  entry: "./client/index.js",
+  entry: {
+    app: "./client/index.js",
+    search: './client/containers/Search.jsx',
+    donations: './client/containers/Donations.jsx'
+  },
   output: {
+    //change filename value to [name].bundle.js when : npm run build
+    filename: 'bundle.js',
+    chunkFilename: '[name].bundle.js',
     path: path.resolve(__dirname, "build"),
-    filename: "bundle.js"
+    publicPath: '/build/'
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+    splitChunks: {
+      chunks: 'async',
+      minSize: 30000,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 6,
+      maxInitialRequests: 4,
+      automaticNameMaxLength: 30,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    }
   },
   mode: process.env.NODE_ENV,
   devServer: {
     contentBase: path.join(__dirname, "./client/assets"),
+    hot: true,
     publicPath: "http://localhost:8080/build/",
     proxy: {
       '/': 'http://localhost:3000',

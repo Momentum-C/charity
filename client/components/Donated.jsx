@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
+
 const Donated = ({ charityName, amount, deleteDonation, editDonation, index, dateAdded }) => {
   const dateCreated = new Date(dateAdded);
   const newDate = dateCreated.toLocaleDateString();
