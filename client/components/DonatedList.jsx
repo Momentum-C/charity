@@ -4,7 +4,7 @@ import DonationInput from './DonationInput.jsx';
 const DonatedList = ({
   username,
   charity,
-  setIsCharity,
+  setCharity,
   deleteDonation,
   editDonation
 }) => {
@@ -21,7 +21,7 @@ const DonatedList = ({
   })
   return (
     <React.Fragment>
-      <DonationInput charity={charity} username={username} setIsCharity={setIsCharity} />
+      <DonationInput charity={charity} username={username} setCharity={setCharity} />
       {donArr}
     </React.Fragment>
   )

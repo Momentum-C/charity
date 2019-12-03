@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const DonationInput = ({ username, charity, setIsCharity }) => {
+const DonationInput = ({ username, charity, setCharity }) => {
 
   const [isCharityIn, setIsCharityIn] = useState('');
   const [isAmountIn, setIsAmountIn] = useState('')
@@ -28,7 +28,7 @@ const DonationInput = ({ username, charity, setIsCharity }) => {
           setIsCharityIn('');
           setIsAmountIn('');
           charityList.push(donation)
-          setIsCharity(charityList);
+          setCharity(charityList);
         }
       })
   }
