@@ -1,23 +1,23 @@
 import Login from './containers/Login.jsx';
 import Signup from './components/Signup.jsx'
-import Search from './containers/Search.jsx';
-import Donations from './containers/Donations.jsx';
-import Header from './components/Header.jsx';
+import MainContainer from './containers/MainContainer';
 import React, { useState, useEffect } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
+
+const override = 'display: block;margin: 0 auto;border-color: red;';
 
 const App = () => {
-  const [userStatus, setUserStatus] = useState('login');
-  const [isUserDetails, setIsUserDetails] = useState({
+  const [userDetails, setUserDetails] = useState({
     username: '',
     password: ''
   });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSignedUp, setIsSignedUp] = useState(true);
-  const [isSearchTab, setisSearchTab] = useState(true);
-  const [isCharity, setIsCharity] = useState([]);
-  const [isTwoLetterState, setIsTwoLetterState] = useState('');
+  const [isSearchTab, setIsSearchTab] = useState(true);
+  const [charity, setCharity] = useState([]);
+  const [twoLetterState, setTwoLetterState] = useState('');
   const [isFundraisingOrg, setIsFundraisingOrg] = useState(false);
-  const [isCategory, setIsCategory] = useState([
+  const [categories, setCategories] = useState([
     { '0': false, name: 'Animals' },
     { '1': false, name: 'Arts, Culture, Humanities' },
     { '2': false, name: 'Education' },
@@ -30,16 +30,17 @@ const App = () => {
     { '9': false, name: 'Community Development' },
     { '10': false, name: 'Research and Public Policy' }
   ]);
-  const [isFetchedCategoryData, setIsFetchedCategoryData] = useState([]);
-  const [isInterested, setIsInterested] = useState([]);
-  const [isSearchNumber, setIsSearchNumber] = useState(0);
+  const [fetchedCategoryData, setFetchedCategoryData] = useState([]);
+  const [interested, setInterested] = useState([]);
+  const [searchNumber, setSearchNumber] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const handleLoginDetails = (name, value) => {
-    const updatedLoginDetails = { ...isUserDetails };
+    const updatedLoginDetails = { ...userDetails };
     updatedLoginDetails[name] = value;
-    setIsUserDetails(updatedLoginDetails);
+    setUserDetails(updatedLoginDetails);
   }
   useEffect(() => {
-    const { username } = isUserDetails;
+    const { username } = userDetails;
     fetch('/checkCookie', {
       method: 'POST',
       headers: {
@@ -51,31 +52,27 @@ const App = () => {
       .then((data) => {
         const { isLoggedIn, username, reply, donated } = data;
         setIsLoggedIn(isLoggedIn);
-        if(isLoggedIn){
+        if(isLoggedIn) {
           username ? handleLoginDetails('username', username) : false;
-          reply ? setIsInterested(reply) : false;
-          donated ? setIsCharity(donated) : false;
+          reply ? setInterested(reply) : false;
+          donated ? setCharity(donated) : false;
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
   }, []);
 
-  useEffect(() => {
-    const loginOrSignupString = isSignedUp ? 'login' : 'signup';
-    setUserStatus(loginOrSignupString);
-  }, [isSignedUp]);
-
   const displaySignUpComponent = () => {
-    setIsSignedUp(!isSignedUp);
+    setIsSignedUp(wasSignedUp => !wasSignedUp);
   };
 
-  const handleLogOut = () => {
+  const handleLogout = () => {
     fetch('/logout', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(isUserDetails)
+      body: JSON.stringify(userDetails)
     })
       .then((res) => res.json())
       .then((data) => {
@@ -89,12 +86,13 @@ const App = () => {
       .catch((err) => console.error(err))
   }
   const handleSignupOrLogin = () => {
+    const userStatus = isSignedUp ? 'login' : 'signup';
     fetch(`/${userStatus}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(isUserDetails)
+      body: JSON.stringify(userDetails)
     })
       .then((res) => res.json())
       .then((data) => {
@@ -102,15 +100,15 @@ const App = () => {
         setIsLoggedIn(isLoggedIn);
         if (username) handleLoginDetails('username', username);
         if (reply) setIsInterested(reply);
-        if (donated) setIsCharity(donated);
+        if (donated) setCharity(donated);
       })
       .catch((err) => console.error(err));
   }
   //fetching data using a post request, sending user input as body
   const fetchData = () => {
     const fundraisingOrgs = isFundraisingOrg;
-    const state = isTwoLetterState;
-    const trueIndices = isCategory.map((objects, index) => {
+    const state = twoLetterState;
+    const trueIndices = categories.map((objects, index) => {
       if (objects[index]) {
         return index + 1;
       };
@@ -123,7 +121,7 @@ const App = () => {
           fundraisingOrgs,
           state,
           ids: trueIndices,
-          searchNumber: isSearchNumber
+          searchNumber: searchNumber
         }
       })
     })
@@ -136,14 +134,14 @@ const App = () => {
             data.push(object);
           })
         })
-        setIsFetchedCategoryData(data)
+        setFetchedCategoryData(data)
       })
       .catch((err) => {
         console.log('something broke inside of .then chain inside of fetchData method')
       })
   }
   const sendInterests = (interests) => {
-    const { username } = isUserDetails;
+    const { username } = userDetails;
     fetch('/interests', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
@@ -160,17 +158,17 @@ const App = () => {
       })
   }
   const deleteDonation = (index) => {
-    const isCharityClone = [];
-    for (let i = 0; i < isCharity.length; i += 1) {
+    const charityClone = [];
+    for (let i = 0; i < charity.length; i += 1) {
       if (i !== index) {
-        isCharityClone.push(isCharity[i]);
+        charityClone.push(charity[i]);
       }
     }
-    setIsCharity(isCharityClone);
+    setCharity(charityClone);
     fetch('/charity', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ _id: isCharity[index]._id })
+      body: JSON.stringify({ _id: charity[index]._id })
     })
       .then((res) => {
         console.log('successfully deleted from database');
@@ -180,18 +178,18 @@ const App = () => {
       })
   }
   const editDonation = (index, newCharityData) => {
-    const isCharityClone = [];
+    const charityClone = [];
     let updatedDataRow;
-    for (let i = 0; i < isCharity.length; i += 1) {
+    for (let i = 0; i < charity.length; i += 1) {
       if (i !== index) {
-        isCharityClone.push(isCharity[i]);
+        charityClone.push(charity[i]);
       } else {
-        const updatedData = { ...isCharity[i], ...newCharityData };
-        isCharityClone.push(updatedData);
+        const updatedData = { ...charity[i], ...newCharityData };
+        charityClone.push(updatedData);
         updatedDataRow = updatedData;
       }
     }
-    setIsCharity(isCharityClone);
+    setCharity(charityClone);
     fetch('/updateDonation', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -205,50 +203,48 @@ const App = () => {
       })
   }
 
-  return (
-    <div className="App">
-      {
-        isLoggedIn &&
-        <div className="main-container">
-          <Header handleLogOut={handleLogOut} username={isUserDetails.username} />
-          {!isSearchTab &&
-            <Donations
-              username={isUserDetails.username}
-              isCharity={isCharity}
-              setIsCharity={setIsCharity}
-              isSearchTab={isSearchTab}
-              setisSearchTab={setisSearchTab}
+  const display = isLoading ? <ClipLoader
+                            size={150} // or 150px
+                            color={"#123abc"}
+                            loading={isLoading}
+                          /> : (
+    <>
+      {isLoggedIn && <MainContainer 
+              handleLogout={handleLogout}
+              username={userDetails.username}
+              charity={charity}
+              setCharity={setCharity}
               deleteDonation={deleteDonation}
               editDonation={editDonation}
-            />}
-          {isSearchTab && <Search
-            isCategory={isCategory}
-            setIsCategory={setIsCategory}
-            fetchData={fetchData}
-            setIsTwoLetterState={setIsTwoLetterState}
-            setIsFundraisingOrg={setIsFundraisingOrg}
-            isFetchedCategoryData={isFetchedCategoryData}
-            setIsInterested={setIsInterested}
-            isInterested={isInterested}
-            setIsSearchNumber={setIsSearchNumber}
-            sendInterests={sendInterests}
-            isSearchTab={isSearchTab}
-            setisSearchTab={setisSearchTab}
-          />}
-        </div>
-      }
+              categories={categories}
+              setCategories={setCategories}
+              fetchData={fetchData}
+              setTwoLetterState={setTwoLetterState}
+              setIsFundraisingOrg={setIsFundraisingOrg}
+              fetchedCategoryData={fetchedCategoryData}
+              setInterested={setInterested}
+              interested={interested}
+              setSearchNumber={setSearchNumber}
+              sendInterests={sendInterests}
+              isSearchTab={isSearchTab}
+              setIsSearchTab={setIsSearchTab}
+        />}
       {!isLoggedIn && isSignedUp && <Login
         handleLoginDetails={handleLoginDetails}
         handleSignupOrLogin={handleSignupOrLogin}
         displaySignUpComponent={displaySignUpComponent}
       />}
-      {
-        !isLoggedIn && !isSignedUp && <Signup
-          handleLoginDetails={handleLoginDetails}
-          handleSignupOrLogin={handleSignupOrLogin}
-          displaySignUpComponent={displaySignUpComponent}
-        />
-      }
+      {!isLoggedIn && !isSignedUp && <Signup
+        handleLoginDetails={handleLoginDetails}
+        handleSignupOrLogin={handleSignupOrLogin}
+        displaySignUpComponent={displaySignUpComponent}
+      />}
+    </>
+  );
+
+  return (
+    <div className="App">
+      {display}
     </div>
   );
 }

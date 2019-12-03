@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Charity from './Charity' // is CharityDisplay supposed to render Charity?
 import SearchArea from './SearchArea'
 
 const SearchAreaForm = ({
-  setIsTwoLetterState,
+  setTwoLetterState,
   setIsFundraisingOrg,
   fetchData,
-  setIsSearchNumber
+  setSearchNumber
 }) => {
   const states = [
     "CA - California",
@@ -80,7 +80,7 @@ const SearchAreaForm = ({
         <div>
           <label>State (default CA): </label>
           <select onChange={(e) => {
-            setIsTwoLetterState(e.target.value)
+            setTwoLetterState(e.target.value)
           }}>
             {dropDownListItems}
           </select>
@@ -94,7 +94,7 @@ const SearchAreaForm = ({
         <div>
           <label>How many Searches (default 1)?:  </label>
           <input id='number-of-searches' type='number' onChange={(e) => {
-            setIsSearchNumber(e.target.value);
+            setSearchNumber(e.target.value);
           }}></input>
         </div>
         <div id='search-charity'>

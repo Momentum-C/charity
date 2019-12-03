@@ -1,17 +1,16 @@
 import React from 'react';
 import InterestChild from './InterestChild.jsx'
-const Interests = ({ isInterested, setIsInterested, sendInterests }) => {
+const Interests = ({ interested, setInterested, sendInterests }) => {
   let interestedChildren;
-  if (isInterested && isInterested.length > 0) {
-    interestedChildren = isInterested.map((obj, i) => {
+  if (interested && interested.length > 0) {
+    interestedChildren = interested.map((obj, i) => {
       return (<InterestChild
         key={`interest-child${i}`}
         url={obj.url}
         name={obj.name}
         tagLine={obj.tagLine}
         stars={obj.stars}
-        setIsInterested={setIsInterested}
-        isInterested={isInterested}
+        setInterested={setInterested}
       />);
     })
   }
@@ -20,7 +19,7 @@ const Interests = ({ isInterested, setIsInterested, sendInterests }) => {
     <div id='interested-charities'>
       <h1>Interested Charities</h1>
       <button id='save-charities' onClick={() => {
-        sendInterests(isInterested)
+        sendInterests(interested)
       }}>Save These Charities!</button>
       <div id='interests-children'>
         {interestedChildren ? interestedChildren : false}

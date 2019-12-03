@@ -29,9 +29,9 @@ function sortForPie(arr, sortBy, accType = undefined) {
   return output;
 }
 
-const DataVis = ({ isCharity }) => {
-  const sum = isCharity ? isCharity.reduce((acc, val) => acc + Number(val.amount), 0) : 0;
-  const pieData = sortForPie(isCharity, "charityName", "amount");
+const DataVis = ({ charity }) => {
+  const sum = charity ? charity.reduce((acc, val) => acc + Number(val.amount), 0) : 0;
+  const pieData = sortForPie(charity, "charityName", "amount");
   const pie = <PieChart className='pieChart'
     data={
       pieData

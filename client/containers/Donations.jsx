@@ -3,32 +3,32 @@ import DonatedList from '../components/DonatedList.jsx';
 import DataVis from '../components/DataVis.jsx';
 import Tabs from '../components/Tabs.jsx';
 const Donations = ({
-  isCharity,
-  setIsCharity,
+  charity,
+  setCharity,
   username,
   isSearchTab,
-  setisSearchTab,
+  setIsSearchTab,
   deleteDonation,
   editDonation
 }) => {
   return (
     <React.Fragment>
       <div className='tabs-area'>
-        <Tabs isSearchTab={isSearchTab} setisSearchTab={setisSearchTab} />
+        <Tabs isSearchTab={isSearchTab} setIsSearchTab={setIsSearchTab} />
       </div>
       <div className='donated-container-margin-top-spacing'>
         <div className='donated-container'>
           <div className='donation-list'>
             <DonatedList
               username={username}
-              isCharity={isCharity}
-              setIsCharity={setIsCharity}
+              charity={charity}
+              setCharity={setCharity}
               deleteDonation={deleteDonation}
               editDonation={editDonation}
             />
           </div>
           <div className='data-visualizer'>
-            <DataVis isCharity={isCharity} />
+            <DataVis charity={charity} />
           </div>
         </div>
       </div>
