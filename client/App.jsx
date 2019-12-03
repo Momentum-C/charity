@@ -52,7 +52,7 @@ const App = () => {
       .then((data) => {
         const { isLoggedIn, username, reply, donated } = data;
         setIsLoggedIn(isLoggedIn);
-        if(isLoggedIn) {
+        if (isLoggedIn) {
           username ? handleLoginDetails('username', username) : false;
           reply ? setInterested(reply) : false;
           donated ? setCharity(donated) : false;
@@ -204,43 +204,43 @@ const App = () => {
   }
 
   const display = isLoading ? <ClipLoader
-                            size={150} // or 150px
-                            color={"#123abc"}
-                            loading={isLoading}
-                          /> : (
-    <>
-      {isLoggedIn && <MainContainer 
-              handleLogout={handleLogout}
-              username={userDetails.username}
-              charity={charity}
-              setCharity={setCharity}
-              deleteDonation={deleteDonation}
-              editDonation={editDonation}
-              categories={categories}
-              setCategories={setCategories}
-              fetchData={fetchData}
-              setTwoLetterState={setTwoLetterState}
-              setIsFundraisingOrg={setIsFundraisingOrg}
-              fetchedCategoryData={fetchedCategoryData}
-              setInterested={setInterested}
-              interested={interested}
-              setSearchNumber={setSearchNumber}
-              sendInterests={sendInterests}
-              isSearchTab={isSearchTab}
-              setIsSearchTab={setIsSearchTab}
+    size={150} // or 150px
+    color={"#123abc"}
+    loading={isLoading}
+  /> : (
+      <>
+        {isLoggedIn && <MainContainer
+          handleLogout={handleLogout}
+          username={userDetails.username}
+          charity={charity}
+          setCharity={setCharity}
+          deleteDonation={deleteDonation}
+          editDonation={editDonation}
+          categories={categories}
+          setCategories={setCategories}
+          fetchData={fetchData}
+          setTwoLetterState={setTwoLetterState}
+          setIsFundraisingOrg={setIsFundraisingOrg}
+          fetchedCategoryData={fetchedCategoryData}
+          setInterested={setInterested}
+          interested={interested}
+          setSearchNumber={setSearchNumber}
+          sendInterests={sendInterests}
+          isSearchTab={isSearchTab}
+          setIsSearchTab={setIsSearchTab}
         />}
-      {!isLoggedIn && isSignedUp && <Login
-        handleLoginDetails={handleLoginDetails}
-        handleSignupOrLogin={handleSignupOrLogin}
-        displaySignUpComponent={displaySignUpComponent}
-      />}
-      {!isLoggedIn && !isSignedUp && <Signup
-        handleLoginDetails={handleLoginDetails}
-        handleSignupOrLogin={handleSignupOrLogin}
-        displaySignUpComponent={displaySignUpComponent}
-      />}
-    </>
-  );
+        {!isLoggedIn && isSignedUp && <Login
+          handleLoginDetails={handleLoginDetails}
+          handleSignupOrLogin={handleSignupOrLogin}
+          displaySignUpComponent={displaySignUpComponent}
+        />}
+        {!isLoggedIn && !isSignedUp && <Signup
+          handleLoginDetails={handleLoginDetails}
+          handleSignupOrLogin={handleSignupOrLogin}
+          displaySignUpComponent={displaySignUpComponent}
+        />}
+      </>
+    );
 
   return (
     <div className="App">

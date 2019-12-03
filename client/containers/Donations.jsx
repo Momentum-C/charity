@@ -11,6 +11,7 @@ const Donations = ({
   deleteDonation,
   editDonation
 }) => {
+
   return (
     <React.Fragment>
       <div className='tabs-area'>
